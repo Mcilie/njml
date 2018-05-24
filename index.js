@@ -2,12 +2,12 @@
 
 //var method = NML.prototype;
 
-module.exports =  NML()
+module.exports = {
+    matrix: require('./matrix.js'),
+    
+      
 
-function NML() {
-    return {matrix: require('./matrix.js')};
 
-}
-
+};
 
 

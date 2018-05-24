@@ -12,5 +12,8 @@
     "Learning"
   ],
   "author": "Michael C Ilie",
-  "license": "BSD-2-Clause"
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "numjs": "^0.15.1"
+  }
 }
