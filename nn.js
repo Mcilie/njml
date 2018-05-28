@@ -26,10 +26,8 @@ var training_set_outputs = [[]];
 
 for (var i = 0; i < MyData.length; i++){
     var j = MyData[i];
-    var q = j.pop();
-    console.log(q);
-    cont();
-    training_set_outputs[0].push(q);
+    //var q = j.pop();
+    training_set_outputs[0].push(j.pop());
     training_set_inputs.push(j);
 }
 //END CONVERT CSV TO NUMS
@@ -94,6 +92,7 @@ for (var k = 0; k< len-1; k++){
     //var predict = nj.sigmoid(nj.dot(nj.array(testIn[k]), synaptic_weights));
 
 }
+//commmented code
 //console.log(acc/len);
 //console.log(testOut);
 
