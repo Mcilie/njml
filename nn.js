@@ -10,6 +10,28 @@ process.stdin.once('data', function () {
 
 });};
 
+var ev= function(q){
+    //return q;
+    if (q%2 ==0){
+        return 0;
+    }
+    return 1;
+}
+var nor = function(q){
+    var reA = [];
+    for(var i = 0; i< q.length; i++){
+        if( q[i] > 0){
+            reA.push(1);
+        }
+        else{reA.push(0);}
+    }
+    return reA;
+}
+
+var mi = function(a){
+    if (a >0){return 1;}
+    return 0;
+}
 //END FUNCT DEFINE
 
 
@@ -27,8 +49,8 @@ var training_set_outputs = [[]];
 for (var i = 0; i < MyData.length; i++){
     var j = MyData[i];
     //var q = j.pop();
-    training_set_outputs[0].push(j.pop());
-    training_set_inputs.push(j);
+    training_set_outputs[0].push(ev(j.shift()));
+    training_set_inputs.push(j.map(mi));
 }
 //END CONVERT CSV TO NUMS
 
@@ -49,8 +71,8 @@ var testOut= [[]];
 
 for (var i = 0; i < TestData.length; i++){
     var j = TestData[i];
-    testOut[0].push(j.pop());
-    testIn.push(j);
+    testOut[0].push(ev(j.shift()));
+    testIn.push(j.map(mi));
 }
 //END CONVERT CSV TO NUMS TESTING
 
@@ -65,7 +87,8 @@ var synaptic_weights = nj.subtract(nj.multiply(nj.random([28*28, 1]),2),1);
 //console.log(training_set_inputs.tolist());
 //console.log(synaptic_weights.tolist());
 //TRAINING
-for(var i = 0; i<10; i++){
+var lol = 0;
+for(;;){
 	var output = nj.sigmoid(nj.dot(training_set_inputs,synaptic_weights));
 	synaptic_weights = nj.add(
 		synaptic_weights,nj.dot(
@@ -77,22 +100,37 @@ for(var i = 0; i<10; i++){
                 )
 			)
 	))
+    console.log("Epoch: ",lol);
+    lol++;
+    var acc = 0;
+    var len = testIn.length-1;
+    for (var k = 0; k< len-1; k++){
+    //console.log(k);
+    var predict = nj.sigmoid(nj.dot(nj.array(testIn[k]), synaptic_weights));
+    if(predict.tolist()[0] === testOut[0][k]){acc++;};
+    //console.log(predict.tolist()[0],  testOut[0][k]);
+
+    }
+    //commmented code
+    console.log(acc/len);
+
 }
 //END TRAINING
 
 
 
-
+/*
 var acc = 0;
 var len = testIn.length-1;
-console.log(testIn);
-console.log(testOut);
 for (var k = 0; k< len-1; k++){
     //console.log(k);
-    //var predict = nj.sigmoid(nj.dot(nj.array(testIn[k]), synaptic_weights));
+    var predict = nj.sigmoid(nj.dot(nj.array(testIn[k]), synaptic_weights));
+    if(predict.tolist()[0] === testOut[0][k]){acc++;};
+    //console.log(predict.tolist()[0],  testOut[0][k]);
 
 }
 //commmented code
-//console.log(acc/len);
+console.log(acc/len);
+//console.log(acc,len);
 //console.log(testOut);
-
+*/
