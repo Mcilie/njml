@@ -13,7 +13,7 @@ process.stdin.once('data', function () {
 var ev= function(q){
     //return q;
     if (q%2 ==0){
-        return 0;
+        return -1;
     }
     return 1;
 }
@@ -30,7 +30,7 @@ var nor = function(q){
 
 var mi = function(a){
     if (a >0){return 1;}
-    return 0;
+    return -1;
 }
 //END FUNCT DEFINE
 
@@ -68,6 +68,14 @@ var TestData = readCSV('/Users/michaelilie/Desktop/mnist_test.csv');
 //CONVERT CSV TO NUMS TESTING
 var testIn= [];
 var testOut= [[]];
+var rowTcoll = a => {
+    retArr = [];
+    var d = a.tolist();
+    for (var e = 0; e < d.length; e++){
+        retArr.push(d[e][0]);
+    }
+    return retArr;
+}
 
 for (var i = 0; i < TestData.length; i++){
     var j = TestData[i];
@@ -82,14 +90,17 @@ var nj = require("numjs");
 training_set_inputs = nj.array(training_set_inputs);
 training_set_outputs = nj.array(training_set_outputs).T;
 var synaptic_weights = nj.subtract(nj.multiply(nj.random([28*28, 1]),2),1);
+var average = arr => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;
+console.log(average(rowTcoll(synaptic_weights)));
 //END IMPORTS AND INIT
 
 //console.log(training_set_inputs.tolist());
 //console.log(synaptic_weights.tolist());
 //TRAINING
 var lol = 0;
-for(;;){
-	var output = nj.sigmoid(nj.dot(training_set_inputs,synaptic_weights));
+for(var i = 0;i<20;i++){
+    //console.log(nj.dot(training_set_inputs,synaptic_weights));
+	var output = nj.tanh(nj.dot(training_set_inputs,synaptic_weights));
 	synaptic_weights = nj.add(
 		synaptic_weights,nj.dot(
 			training_set_inputs.T,
@@ -102,7 +113,7 @@ for(;;){
 	))
     console.log("Epoch: ",lol);
     lol++;
-    var acc = 0;
+    /*var acc = 0;
     var len = testIn.length-1;
     for (var k = 0; k< len-1; k++){
     //console.log(k);
@@ -112,25 +123,25 @@ for(;;){
 
     }
     //commmented code
-    console.log(acc/len);
+    console.log(acc/len);*/
 
 }
 //END TRAINING
 
 
 
-/*
+
 var acc = 0;
 var len = testIn.length-1;
 for (var k = 0; k< len-1; k++){
     //console.log(k);
-    var predict = nj.sigmoid(nj.dot(nj.array(testIn[k]), synaptic_weights));
+    var predict = nj.tanh(nj.dot(nj.array(testIn[k]), synaptic_weights));
     if(predict.tolist()[0] === testOut[0][k]){acc++;};
-    //console.log(predict.tolist()[0],  testOut[0][k]);
+    console.log(predict.tolist()[0],  testOut[0][k]);
 
 }
 //commmented code
 console.log(acc/len);
 //console.log(acc,len);
 //console.log(testOut);
-*/
+
