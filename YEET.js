@@ -84,7 +84,7 @@ var sy = require("synaptic");
 
 // create the network
 var inputLayer = new sy.Layer(28*28);
-var hiddenLayer = new sy.Layer(28*28);
+var hiddenLayer = new sy.Layer(28);
 var outputLayer = new sy.Layer(1);
 
 inputLayer.project(hiddenLayer);
@@ -102,10 +102,10 @@ for (var i = 0; i < 3; i++)
 {
     console.log(i);
 
-    for(var j = 0; j<783; j++){
+    for(var j = 0; j<MyData.length; j++){
         //console.log(j);
         myNetwork.activate(training_set_inputs[j]);
-        myNetwork.propagate(learningRate, [training_set_inputs[0][j]]);
+        myNetwork.propagate(learningRate, [training_set_outputs[0][j]]);
     }
 }
 
