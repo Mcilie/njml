@@ -24,9 +24,10 @@ var nor = function(q){
 }
 
 var mi = function(a){
+    return a/255
     //return a
-    if (a >0){return 1;}
-    return 0;
+    if (a >0){return .999;}
+    return .001;
 }
 //END FUNCT DEFINE
 
@@ -45,7 +46,7 @@ var training_set_outputs = [[]];
 for (var i = 0; i < MyData.length; i++){
     var j = MyData[i];
     //var q = j.pop();
-    training_set_outputs[0].push(j.shift());
+    training_set_outputs[0].push(j.shift()/10);
     training_set_inputs.push(j.map(mi));
 }
 //END CONVERT CSV TO NUMS
@@ -75,7 +76,7 @@ var rowTcoll = a => {
 
 for (var i = 0; i < TestData.length; i++){
     var j = TestData[i];
-    testOut[0].push(ev(j.shift()));
+    testOut[0].push(j.shift()/10);
     testIn.push(j.map(mi));
 }
 
@@ -98,7 +99,7 @@ var myNetwork = new sy.Network({
 
 // train the network
 var learningRate = .3;
-for (var i = 0; i < 3; i++)
+for (var i = 0; i < 10; i++)
 {
     console.log(i);
 
